@@ -1,6 +1,7 @@
 import utils
 import car
 import numpy as np
+import copy
 import random
 import scipy.stats
 
@@ -47,8 +48,6 @@ class CarGenerator:
             return None
         else:
             self.next_time = t
-            print(self.next_car)
-            ret_car = self.next_car
+            ret_car = copy.deepcopy(self.next_car)
             _next_time_car()
-            print(ret_car)
             return ret_car
