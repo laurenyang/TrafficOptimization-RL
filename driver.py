@@ -7,7 +7,7 @@ import cargenerate
 global vars 
 '''
 TOTAL_TIME = 1000 # in seconds 
-CAR_PROB - 0.8 # prob of a car appearing at any given time step 
+CAR_PROB = 0.10 # prob of a car appearing at any given time step 
 
 # actions
 STOP = 0
@@ -31,10 +31,10 @@ right_cars = []
 top_cars = []
 bottom_cars = []
 lights = trafficlight.TrafficLight([1, 1, 0, 0]) 
-left_car_gen = cargenerate(RIGHT_DIR, CAR_PROB)
-right_car_gen = cargenerate(LEFT_DIR, CAR_PROB)
-up_car_gen = cargenerate(DOWN_DIR, CAR_PROB)
-down_car_gen = cargenerate(UP_DIR, CAR_PROB) 
+left_car_gen = cargenerate.CarGenerator(RIGHT_DIR, CAR_PROB)
+right_car_gen = cargenerate.CarGenerator(LEFT_DIR, CAR_PROB)
+up_car_gen = cargenerate.CarGenerator(DOWN_DIR, CAR_PROB)
+down_car_gen = cargenerate.CarGenerator(UP_DIR, CAR_PROB) 
 
 for i in range(TOTAL_TIME):
 	#do stuff

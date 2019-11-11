@@ -10,8 +10,6 @@ class Car:
     """
     MAX_SPEED = 25
 
-   
-
     # actions
     STOP = 0
     STRAIGHT = 1
@@ -36,7 +34,6 @@ class Car:
         self.stopped = False
 
     def updatePosition(self, cars, lights):
-        currX, currY = self.pos
         if self.dir == self.LEFT_DIR:
             # self.pos = (currX - self.speed, currY)
             self.pos[0] -= self.speed
