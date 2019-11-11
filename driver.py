@@ -24,7 +24,12 @@ DOWN_DIR = 3
 '''
 initialize stuff
 '''
-car_list = [] #keeps track of all cars in world
+
+all_cars = [] #keeps track of all cars in world
+left_cars = []
+right_cars = []
+top_cars = []
+bottom_cars = []
 lights = trafficlight.TrafficLight([1, 1, 0, 0]) 
 left_car_gen = cargenerate(RIGHT_DIR, CAR_PROB)
 right_car_gen = cargenerate(LEFT_DIR, CAR_PROB)
@@ -33,6 +38,8 @@ down_car_gen = cargenerate(UP_DIR, CAR_PROB)
 
 for i in range(TOTAL_TIME):
 	#do stuff
+	#keep track of closest car to light at all times 
+	
 
 
 
