@@ -66,15 +66,16 @@ class Car:
 
         if lights[self.dir] == 1:
             min_dist = min(min_dist, max(abs(self.pos[0]), abs(self.pos[1]))) # how far to the light
-            if max(abs(self.pos[0]), abs(self.pos[1]))
+
 
         if min_dist < float('inf'):
             self.acceleration = ((self.speed)**2) / (2 * min_dist)
             if min_dist < self.follow_dist:
                 self.stopped = True
+                self.speed = 0
         else:
             self.acceleration += AVG_ACCELERATION
-            self.stopped = True
+            self.stopped = False
         
 
 
