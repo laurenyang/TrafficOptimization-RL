@@ -38,7 +38,29 @@ down_car_gen = cargenerate(UP_DIR, CAR_PROB)
 for i in range(TOTAL_TIME):
 	#do stuff
 	#keep track of closest car to light at all times 
-	
+
+	#generate all cars 
+	generated_left_car = left_car_gen(i)
+	generated_right_car = right_car_gen(i)
+	generated_up_car = up_car_gen(i)
+	generated_down_car = down_car_gen(i)
+
+	if generated_left_car: 
+		left_cars.append(generated_left_car)
+		all_cars.append(generated_left_car)
+	if generated_right_car: 
+		right_cars.append(generated_right_car)
+		all_cars.append(generated_right_car)
+	if generated_up_car: 
+		up_cars.append(generated_up_car)
+		all_cars.append(generated_up_car)
+	if generated_down_car: 
+		down_cars.append(generated_down_car)
+		all_cars.append(generated_down_car)
+
+	#update existing cars
+
+
 
 
 
