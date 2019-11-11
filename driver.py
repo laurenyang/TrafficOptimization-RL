@@ -38,7 +38,10 @@ down_car_gen = cargenerate(UP_DIR, CAR_PROB)
 
 for i in range(TOTAL_TIME):
 	#do stuff
-	#keep track of closest car to light at all times 
+ 
+	#update existing cars
+	for car in all_cars:
+		car.updatePosition(all_cars, lights)
 
 	#generate all cars 
 	generated_left_car = left_car_gen(i)
@@ -59,7 +62,8 @@ for i in range(TOTAL_TIME):
 		down_cars.append(generated_down_car)
 		all_cars.append(generated_down_car)
 
-	#update existing cars
+	
+
 
 
 
