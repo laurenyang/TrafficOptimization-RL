@@ -5,5 +5,5 @@ class TrafficLight:
 	def print(self): 
 		print("Traffic Light State: " + str(self.state))
 
-	def changeState(newState):
+	def changeState(self, newState):
 		self.state = newState
