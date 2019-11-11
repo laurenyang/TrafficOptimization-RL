@@ -3,9 +3,10 @@ import numpy as np
 def calculateReward(cars):
     cost = 0
     for c in cars:
-        if c.action == c.STOP:
+        if c.stopped:
             cost -= 1
     return cost
 
-def updatePositions(cars, lights):
-    
+# no longer
+def pruneCars(cars):
+
