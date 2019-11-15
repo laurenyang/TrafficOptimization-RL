@@ -27,7 +27,7 @@ down_green = pygame.transform.rotate(left_green, 90)
 up_red = pygame.transform.rotate(right_red, 90)
 up_green = pygame.transform.rotate(right_green, 90)
 
-screen.fill([0,200,50])
+screen.fill([0,150,50])
 screen.blit(background_image, [0, 0])
 
 screen.blit(right_car, [600,452])
