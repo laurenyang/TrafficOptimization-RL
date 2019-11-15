@@ -25,13 +25,17 @@ class CarGenerator:
         # direction
         self.direction = direction
         self.p = p
-        self.prev_time = 0
+        self.prev_time = -1000
 
 
     def gen_car(self, t):
-        if np.random.binomial(1, self.p) == 0 and t < self.prev_time + self.MIN_TIME_BETWEEN_CARS:
-            return None
+        
+        choice = np.random.binomial(1, self.p)
+        print(t, choice, self.prev_time)
 
+        if choice == 0 or t < self.prev_time + self.MIN_TIME_BETWEEN_CARS:
+            return None
+        print('new car generated')
         self.prev_time = t
 
         # truncated normal from 15 to 40 mph
