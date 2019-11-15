@@ -16,7 +16,18 @@ right_car = pygame.transform.flip(left_car, True, False)
 up_car = pygame.transform.rotate(left_car, 90)
 down_car = pygame.transform.flip(up_car, False, True)
 
-screen.fill([0,255,0])
+red_light = pygame.image.load("images/redlight.png").convert_alpha()
+green_light = pygame.image.load("images/greenlight.png").convert_alpha()
+right_red = pygame.transform.scale(red_light, (60, 60))
+right_green = pygame.transform.scale(green_light, (60, 60))
+left_red = pygame.transform.flip(right_red, False, True)
+left_green = pygame.transform.flip(right_green, False, True)
+down_red = pygame.transform.rotate(left_red, 90)
+down_green = pygame.transform.rotate(left_green, 90)
+up_red = pygame.transform.rotate(right_red, 90)
+up_green = pygame.transform.rotate(right_green, 90)
+
+screen.fill([0,200,50])
 screen.blit(background_image, [0, 0])
 
 screen.blit(right_car, [600,452])
@@ -25,6 +36,11 @@ screen.blit(left_car, [0,410])
 screen.blit(down_car, [452, 600])
 screen.blit(up_car, [410, 0])
 
+screen.blit(right_green, [490,440])
+screen.blit(left_green, [350,400])
+
+screen.blit(up_red, [440,360])
+screen.blit(down_red, [400,490])
 
 pygame.display.update()
 
