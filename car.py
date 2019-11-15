@@ -60,8 +60,7 @@ class Car:
                 elif self.dir == self.DOWN_DIR  and self.pos[1] > c.pos[1]:
                     cand = self.pos[1] - c.pos[1]
                 min_dist = min(min_dist, cand)
-
-        if lights[self.dir] == 1:
+        if lights.state[self.dir] == 1:
             min_dist = min(min_dist, max(abs(self.pos[0]), abs(self.pos[1]))) # how far to the light
 
 
