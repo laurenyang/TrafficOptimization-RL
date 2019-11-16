@@ -7,5 +7,12 @@ class TrafficLight:
 	def print(self): 
 		print("Traffic Light State: " + str(self.state))
 
-	def changeState(self, newState):
+	def changeState(self, newState, t):
+		for i in range(len(self.state)):
+			if newState[i] != self.state[i]:
+				self.lastUpdated[i] = t
 		self.state = newState
+
+	def flipState(self, t):
+		newState = [v ^ 1 for v in self.state]
+		self.changeState(newState, t)

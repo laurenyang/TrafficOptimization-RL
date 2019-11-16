@@ -44,8 +44,6 @@ class Car:
         elif self.dir == self.DOWN_DIR:
             self.pos[1] -= self.speed
 
-        self.speed += self.acceleration
-
         # find closest car in 'front' going same direction or nearest light
         min_dist = float('inf')
         for c in cars:
@@ -60,18 +58,29 @@ class Car:
                 elif self.dir == self.DOWN_DIR  and self.pos[1] > c.pos[1]:
                     cand = self.pos[1] - c.pos[1]
                 min_dist = min(min_dist, cand)
+
         if lights.state[self.dir] == 1:
             min_dist = min(min_dist, max(abs(self.pos[0]), abs(self.pos[1]))) # how far to the light
 
 
-        if min_dist < float('inf'):
-            self.acceleration = ((self.speed)**2) / (2 * min_dist)
-            if min_dist < self.follow_dist:
-                self.stopped = True
-                self.speed = 0
+        # if min_dist < float('inf'):
+        #     self.acceleration = ((self.speed)**2) / (2 * min_dist)
+        #     if min_dist < self.follow_dist:
+        #         self.stopped = True
+        #         self.speed = 0
+        # else:
+        #     self.acceleration += AVG_ACCELERATION
+        #     self.stopped = False
+
+        if min_dist < self.follow_dist:
+            self.speed = 0
+            self.stopped = True
         else:
-            self.acceleration += AVG_ACCELERATION
+            self.speed = 30 / 3600
             self.stopped = False
+
+    def print(self):
+        print(f"pos: {car.pos}, dir: {car.dir}, v: {car.speed}, stopped: {car.stopped}")
         
 
 
