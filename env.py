@@ -2,6 +2,8 @@ import cargenerate
 import car
 import trafficlight
 import utils
+import random 
+import numpy as np
 
 # call instance of environment
 # environment has a state space, action space
@@ -26,11 +28,26 @@ class Environment:
     DOWN_DIR = 3
 
     # Q-learning variables
-    self.QTable = {} # (s, a) -> Q-value
-    self.seenTuples = set()
+    QTable = {} # (s, a) -> Q-value
+    seenTuples = set()
+
+    EPSILON = .05
+    ACTIONS = []
+
+    
 
     def __init__(self):
+        self.NUM_LIGHTS = 4
+        for cand in itertools.product([0,1], repeat = self.NUM_LIGHTS):
+            valid = True
+            for idx in range(len(cand)):
+                if cand[idx] == 0 and cand[(idx + 1) % self.NUM_LIGHTS] == 0:
+                    valid = False
+            if valid:
+                self.ACTIONS.append(cand)
         self.reset()
+        # Q-learning variables
+        
 
     def step(self):
         # based on car gen + curr cars, update everything
@@ -66,9 +83,25 @@ class Environment:
         
         self.timestep += 1
 
-
     def writeState(self, all_cars, lights):
         pass
+    # choose action in sarsa? epsilon-greedy
+
+    def chooseAction(self, s):
+        # loop over all possible state-action pairs and loop over all actions take max
+        p = np.random.random()
+        # for loop over all actions, store best action w best reward
+        # look at (s, a) -> Q-value from the QTable, and if (s, a) is not in QTable, assume it is float('-inf')
+        # if tie, choose first or random
+        if p < self.epsilon: 
+            #explore
+            action = np.random.randint(0, self.actions)
+        else: 
+            #chose based on reward]
+            # for 
+            action = np.argmax(self.QTable[s, :]) 
+            
+        return action 
 
     def reward(self, state, action):
         # should take the state and then tell us 
