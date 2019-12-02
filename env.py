@@ -93,9 +93,9 @@ class Environment:
         # for loop over all actions, store best action w best reward
         # look at (s, a) -> Q-value from the QTable, and if (s, a) is not in QTable, assume it is float('-inf')
         # if tie, choose first or random
-        if p < self.epsilon: 
+        if p < self.EPSILON: 
             #explore
-            action = np.random.randint(0, self.actions)
+            action = np.random.randint(0, self.ACTIONS)
         else: 
             #chose based on reward]
             # for 
