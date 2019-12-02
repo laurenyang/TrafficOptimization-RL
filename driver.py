@@ -27,7 +27,7 @@ DOWN_DIR = 3
 def printCar(car):
 	return f"pos: {car.pos}, dir: {car.dir}, v: {car.speed}, stopped: {car.stopped}"
 
-def main():
+def randomBenchmarking():
 	'''
 	initialize stuff
 	'''
@@ -89,7 +89,7 @@ def main():
 				# all_cars = utils.pruneCars(all_cars)
 				#update existing cars
 				left_cars, right_cars, up_cars, down_cars, all_cars = utils.pruneCars(left_cars, right_cars, up_cars, down_cars)
-				for car in all_cars:
+				for car in all_cars[::-1]:
 					car.updatePosition(all_cars, lights)
 
 				#generate all cars 
@@ -127,6 +127,12 @@ def main():
 
 	# plt.plot(switch, avg_costs, 'bo--', linewidth=2, markersize=12)
 	# plt.show()
+
+
+
+
+def main():
+	randomBenchmarking()
 	
 
 	

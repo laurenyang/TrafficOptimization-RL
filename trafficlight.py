@@ -1,8 +1,39 @@
+import itertools
+
 class TrafficLight:
 	def __init__(self, state):
 		# state is a list [left light, top light, right light, bottom light] in this order
 		self.state = state
 		self.lastUpdated = [0, 0, 0, 0] # last timestep that light was updated
+
+
+		# defines all possible actions
+		self.actionSpace = []
+
+		NUM_LIGHTS = 4
+		for cand in itertools.product([0,1], repeat = NUM_LIGHTS):
+			valid = True
+			for idx in range(len(cand)):
+				if cand[idx] == 1 and cand[(idx + 1) % NUM_LIGHTS] == 1:
+					valid = False
+			if valid:
+				self.actionSpace.append(cand)
+
+		# [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 1, 0), (0, 1, 0, 0), (0, 1, 0, 1), (1, 0, 0, 0), (1, 0, 1, 0)]
+
+		# state should be [[],[],[],[]]
+		# T should be dependent on the car generation at first
+			
+
+	
+		# constraint: [a, b, c, d] consecutive letters cannot be 1 at the same time - cannot update a single
+		# light again before 3 seconds
+		
+		# step 1: -> <- left turn both directions
+		# step 2: -> <- straight both directions
+		# step 3: ^ ~^ left turn both directions
+		# step 4: ^ ~^ left turn both directions
+
 
 	def print(self): 
 		print("Traffic Light State: " + str(self.state))

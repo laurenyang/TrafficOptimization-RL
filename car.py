@@ -45,6 +45,7 @@ class Car:
             self.pos[1] -= self.speed
 
         # find closest car in 'front' going same direction or nearest light
+        light_closest_bool = False # true if the light is the closest in the front
         min_dist = float('inf')
         for c in cars:
             if c.dir == self.dir:
@@ -59,8 +60,11 @@ class Car:
                     cand = self.pos[1] - c.pos[1]
                 min_dist = min(min_dist, cand)
 
-        if lights.state[self.dir] == 1:
-            min_dist = min(min_dist, max(abs(self.pos[0]), abs(self.pos[1]))) # how far to the light
+        if lights.state[self.dir] == 1 and (self.action == self.STRAIGHT or self.action == self.RIGHT_TURN):
+            light_dist = max(abs(self.pos[0]), abs(self.pos[1])))
+            if light_dist < min_dist:
+                light_closest_bool = True
+                min_dist = min(min_dist, max(abs(self.pos[0]), abs(self.pos[1]))) # how far to the light
 
 
         # if min_dist < float('inf'):
