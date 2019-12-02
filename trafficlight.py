@@ -14,7 +14,7 @@ class TrafficLight:
 		for cand in itertools.product([0,1], repeat = self.NUM_LIGHTS):
 			valid = True
 			for idx in range(len(cand)):
-				if cand[idx] == 1 and cand[(idx + 1) % self.NUM_LIGHTS] == 1:
+				if cand[idx] == 0 and cand[(idx + 1) % self.NUM_LIGHTS] == 0:
 					valid = False
 			if valid:
 				self.actionSpace.append(cand)

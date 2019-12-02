@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 global vars 
 '''
 TOTAL_TIME = 50 # in seconds 
-CAR_PROB = 1 # prob of a car appearing at any given time step 
+CAR_PROB = 0.1 # prob of a car appearing at any given time step 
 
 # actions
 STOP = 0

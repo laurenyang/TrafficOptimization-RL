@@ -34,8 +34,6 @@ class Car:
         self.stopped = False
 
     def updatePosition(self, cars, lights):
-        
-
         # find closest car in 'front' going same direction or nearest light
         light_closest_bool = False # true if the light is the closest in the front
         min_dist = float('inf')
