@@ -49,12 +49,12 @@ class CarGenerator:
 
         # cars should not be accelerating
         if self.direction == self.LEFT_DIR:
-            car = Car([self.INTERSECTION_LENGTH, 0], speed, 0, self.LEFT_DIR, random.randint(1, 3), follow_dist)
+            car = Car([self.INTERSECTION_LENGTH, 0], speed, 0, self.LEFT_DIR, 1, follow_dist)
         elif self.direction == self.RIGHT_DIR:
-            car = Car([-self.INTERSECTION_LENGTH, 0], speed, 0, self.RIGHT_DIR, random.randint(1, 3), follow_dist)
+            car = Car([-self.INTERSECTION_LENGTH, 0], speed, 0, self.RIGHT_DIR, 1, follow_dist)
         elif self.direction == self.UP_DIR:
-            car = Car([0, -self.INTERSECTION_LENGTH], speed, 0, self.UP_DIR, random.randint(1, 3), follow_dist)
+            car = Car([0, -self.INTERSECTION_LENGTH], speed, 0, self.UP_DIR, 1, follow_dist)
         elif self.direction == self.DOWN_DIR:
-            car = Car([0, self.INTERSECTION_LENGTH], speed, 0, self.DOWN_DIR, random.randint(1, 3), follow_dist)
+            car = Car([0, self.INTERSECTION_LENGTH], speed, 0, self.DOWN_DIR, 1, follow_dist)
 
         return car

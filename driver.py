@@ -9,8 +9,8 @@ import matplotlib.pyplot as plt
 '''
 global vars 
 '''
-TOTAL_TIME = 500 # in seconds 
-CAR_PROB = 0.10 # prob of a car appearing at any given time step 
+TOTAL_TIME = 50 # in seconds 
+CAR_PROB = 1 # prob of a car appearing at any given time step 
 
 # actions
 STOP = 0
@@ -31,14 +31,14 @@ def randomFlipBenchmarking():
 	'''
 	initialize stuff
 	'''
-	np.random.seed(0)
-	epochs = 1000
+	# np.random.seed(0)
+	epochs = 1
 	switch = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] # constant time for when to switch
 	avg_costs = []
-	# switch = [5]
+	switch = [5]
 	print('beginning')
-	switchRange = [5, 10, 120]
-	for s in switchRange:
+	# switchRange = [5, 10, 120]
+	for s in switch:
 		costs = []
 		for _ in range(epochs):
 			all_cars = [] #keeps track of all cars in world
@@ -57,7 +57,8 @@ def randomFlipBenchmarking():
 				#do stuff
 				if i == nextSwitchTime:
 					lights.flipLight(i)
-					nextSwitchTime = i + random.randint(1, s)
+					# nextSwitchTime = i + random.randint(1, s)
+					nextSwitchTime = i + s
 				# if i % s == 0:
 				# 	lights.flipLight(i)
 
@@ -65,9 +66,11 @@ def randomFlipBenchmarking():
 				# # print(len(left_cars) + len(right_cars) + len(up_cars) + len(down_cars))
 				# if len(left_cars) > 0:
 				# 	print('left', printCar(left_cars[0]))
-				# print('left')
-				# for l in left_cars:
-				# 	print(printCar(l))
+				print('left', len(left_cars))
+				print(lights.state)
+				for l in left_cars:
+					print(printCar(l))
+				
 
 				# print('up')
 				# for u in up_cars:
@@ -115,12 +118,12 @@ def randomFlipBenchmarking():
 				cost += utils.calculateReward(all_cars)
 			costs.append(cost)
 		print(costs)
-		plt.xlabel('Wait time')
-		plt.ylabel('Frequency')
-		plt.title(f'Wait time histogram for random wait time (max {s})')
-		plt.hist(costs, normed=True, bins=50)
-		plt.savefig(f'random{s}.png')
-		plt.close()
+		# plt.xlabel('Wait time')
+		# plt.ylabel('Frequency')
+		# plt.title(f'Wait time histogram for random wait time (max {s})')
+		# plt.hist(costs, normed=True, bins=50)
+		# plt.savefig(f'random{s}.png')
+		# plt.close()
 
 	# 	avg_costs.append(np.average(np.array(costs)))
 	# print(avg_costs)

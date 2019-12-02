@@ -46,4 +46,4 @@ class TrafficLight:
 
 	def flipLight(self, t):
 		newState = [v ^ 1 for v in self.state]
-		self.changeState(newState, t)
+		self.changeLight(newState, t)
