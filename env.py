@@ -4,6 +4,7 @@ import trafficlight
 import utils
 import random 
 import numpy as np
+import itertools
 
 # call instance of environment
 # environment has a state space, action space
