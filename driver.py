@@ -27,7 +27,7 @@ DOWN_DIR = 3
 def printCar(car):
 	return f"pos: {car.pos}, dir: {car.dir}, v: {car.speed}, stopped: {car.stopped}"
 
-def randomBenchmarking():
+def randomFlipBenchmarking():
 	'''
 	initialize stuff
 	'''
@@ -56,10 +56,10 @@ def randomBenchmarking():
 			for i in range(TOTAL_TIME):
 				#do stuff
 				if i == nextSwitchTime:
-					lights.flipState(i)
+					lights.flipLight(i)
 					nextSwitchTime = i + random.randint(1, s)
 				# if i % s == 0:
-				# 	lights.flipState(i)
+				# 	lights.flipLight(i)
 
 				# print('all car', i, len(all_cars))
 				# # print(len(left_cars) + len(right_cars) + len(up_cars) + len(down_cars))
@@ -132,7 +132,7 @@ def randomBenchmarking():
 
 
 def main():
-	randomBenchmarking()
+	randomFlipBenchmarking()
 	
 
 	

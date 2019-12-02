@@ -2,7 +2,7 @@ import itertools
 
 class TrafficLight:
 	def __init__(self, state):
-		# state is a list [left light, top light, right light, bottom light] in this order
+		# state is a list [left light, up light, right light, bottom light] in this order
 		self.state = state
 		self.lastUpdated = [0, 0, 0, 0] # last timestep that light was updated
 
@@ -10,16 +10,16 @@ class TrafficLight:
 		# defines all possible actions
 		self.actionSpace = []
 
-		NUM_LIGHTS = 4
-		for cand in itertools.product([0,1], repeat = NUM_LIGHTS):
+		self.NUM_LIGHTS = 4
+		for cand in itertools.product([0,1], repeat = self.NUM_LIGHTS):
 			valid = True
 			for idx in range(len(cand)):
-				if cand[idx] == 1 and cand[(idx + 1) % NUM_LIGHTS] == 1:
+				if cand[idx] == 1 and cand[(idx + 1) % self.NUM_LIGHTS] == 1:
 					valid = False
 			if valid:
 				self.actionSpace.append(cand)
-
-		# [(0, 0, 0, 0), (0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 1, 0), (0, 1, 0, 0), (0, 1, 0, 1), (1, 0, 0, 0), (1, 0, 1, 0)]
+		# 1 is red
+		# [(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 1, 0), (0, 1, 0, 0), (0, 1, 0, 1), (1, 0, 0, 0), (1, 0, 1, 0)]
 
 		# state should be [[],[],[],[]]
 		# T should be dependent on the car generation at first
@@ -38,12 +38,12 @@ class TrafficLight:
 	def print(self): 
 		print("Traffic Light State: " + str(self.state))
 
-	def changeState(self, newState, t):
+	def changeLight(self, newState, t):
 		for i in range(len(self.state)):
 			if newState[i] != self.state[i]:
 				self.lastUpdated[i] = t
 		self.state = newState
 
-	def flipState(self, t):
+	def flipLight(self, t):
 		newState = [v ^ 1 for v in self.state]
 		self.changeState(newState, t)

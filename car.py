@@ -60,12 +60,15 @@ class Car:
                     cand = self.pos[1] - c.pos[1]
                 min_dist = min(min_dist, cand)
 
-        if lights.state[self.dir] == 1 and (self.action == self.STRAIGHT or self.action == self.RIGHT_TURN):
-            light_dist = max(abs(self.pos[0]), abs(self.pos[1])))
+        # if direction car is going has a red light for that direction OR left turn + cross traffic
+        if (lights.state[self.dir] == 1) or \
+            (lights.state[self.dir] == 0 and lights.state[(self.dir + 2) % lights.NUM_LIGHTS] == 0 and self.action == self.LEFT_TURN):
+            light_dist = max(abs(self.pos[0]), abs(self.pos[1]))
             if light_dist < min_dist:
                 light_closest_bool = True
                 min_dist = min(min_dist, max(abs(self.pos[0]), abs(self.pos[1]))) # how far to the light
-
+        # green light
+        
 
         # if min_dist < float('inf'):
         #     self.acceleration = ((self.speed)**2) / (2 * min_dist)
