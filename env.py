@@ -43,6 +43,8 @@ class Environment:
         # Q-learning variables
         self.QTable = {} # (s, a) -> Q-value
         self.seenTuples = set()
+        self.prevState = None
+        self.currState = None
 
     def step(self):
         # based on car gen + curr cars, update everything
@@ -78,7 +80,11 @@ class Environment:
         
         self.timestep += 1
 
-    # def action():
+    # choose action in sarsa? epsilon-greedy
+    def action(self):
+        pass
+    # 
+    # def reward(self, state, action):
 
 
     def render(self):
