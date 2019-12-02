@@ -2,6 +2,8 @@ import cargenerate
 import car
 import trafficlight
 import utils
+import random 
+
 
 # call instance of environment
 # environment has a state space, action space
@@ -45,6 +47,8 @@ class Environment:
         self.seenTuples = set()
         self.prevState = None
         self.currState = None
+        self.epsilon = .05
+        self.actions = lights.actionSpace
 
     def step(self):
         # based on car gen + curr cars, update everything
@@ -81,10 +85,25 @@ class Environment:
         self.timestep += 1
 
     # choose action in sarsa? epsilon-greedy
-    def action(self):
-        pass
-    # 
-    # def reward(self, state, action):
+     def chooseAction(self, s):
+        # loop over all possible state-action pairs and loop over all actions take max
+        p = np.random.random()
+        # for loop over all actions, store best action w best reward
+        # look at (s, a) -> Q-value from the QTable, and if (s, a) is not in QTable, assume it is float('-inf')
+        # if tie, choose first or random
+        if p < self.epsilon: 
+            #explore
+            action = np.random.randint(0, self.actions)
+        else: 
+            #chose based on reward]
+            for 
+            action = np.argmax(self.QTable[s, :]) 
+            
+        return action 
+
+
+    def reward(self, state, action):
+   
 
 
     def render(self):
