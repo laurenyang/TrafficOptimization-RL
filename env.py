@@ -59,8 +59,9 @@ class Environment:
         self.left_cars, self.right_cars, self.up_cars, self.down_cars, self.all_cars = utils.pruneCars(self.left_cars, self.right_cars, self.up_cars, self.down_cars)
         
         # update positions in reverse queue order
-        for car in self.all_cars:
-            car.updatePosition(self.all_cars, self.lights)
+        all_cars_list = sum(self.all_cars, [])
+        for car in all_cars_list:
+            car.updatePosition(all_cars_list, self.lights)
 
         # generate all cars 
         # left gen generates rightwards going cars
@@ -84,6 +85,8 @@ class Environment:
             self.all_cars.append(generated_down_car)
         
         self.timestep += 1
+        self.prevState = self.currState
+        self.currState = self.writeState(self.all_cars, self.lights.state)
 
     def createInitialState(self):
         numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE + 1)
@@ -126,7 +129,7 @@ class Environment:
         for car in all_cars[3]:
             down[abs(int(car.pos[1] / self.GRID_SIZE))] += 1
 
-        return (tuple(left), tuple(right), tuple(up), tuple(down), tuple(lights), utils.numStopped(all_cars[0] + all_cars[1] + all_cars[2] + all_cars[3]))
+        return (tuple(left), tuple(right), tuple(up), tuple(down), tuple(lights), utils.numberStopped(all_cars[0] + all_cars[1] + all_cars[2] + all_cars[3]))
 
 
     # choose action in sarsa? epsilon-greedy
@@ -139,7 +142,7 @@ class Environment:
         # if tie, choose first or random
         if p < self.EPSILON: 
             #explore
-            action = np.random.randint(0, self.ACTIONS)
+            action = self.ACTIONS[np.random.randint(0, len(self.ACTIONS))]
         else: 
             #chose based on reward]
             largestQ = float('-inf')
@@ -154,7 +157,8 @@ class Environment:
                     currActionList = [a]
                 elif currQ == largestQ: 
                     currActionList.append(a)
-            action = random.choice(currActionList)            
+            action = random.choice(currActionList)
+        self.lights.changeLight(action, self.timestep)            
         return action 
 
     def reward(self, state, action):
@@ -173,7 +177,7 @@ class Environment:
         self.right_cars = []
         self.up_cars = []
         self.down_cars = []
-        self.lights = trafficlight.TrafficLight([1, 0, 1, 0]) 
+        self.lights = trafficlight.TrafficLight([1, 1, 1, 1]) 
         self.left_car_gen = cargenerate.CarGenerator(self.RIGHT_DIR, self.CAR_PROB)
         self.right_car_gen = cargenerate.CarGenerator(self.LEFT_DIR, self.CAR_PROB)
         self.top_car_gen = cargenerate.CarGenerator(self.DOWN_DIR, self.CAR_PROB)

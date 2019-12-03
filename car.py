@@ -68,15 +68,15 @@ class Car:
         # else:
         #     self.acceleration += AVG_ACCELERATION
         #     self.stopped = False
-        if self.dir == self.LEFT_DIR:
-            print('yuh', self.pos[0])
-            print(min_dist)
+        # if self.dir == self.LEFT_DIR:
+            # print('yuh', self.pos[0])
+            # print(min_dist)
         if min_dist < self.follow_dist:
             self.speed = 0
             self.stopped = True
         else:
-            if self.dir == self.LEFT_DIR:
-                print('crossing')
+            # if self.dir == self.LEFT_DIR:
+                # print('crossing')
             self.speed = 30 / 3600
             self.stopped = False
         if self.dir == self.LEFT_DIR:
