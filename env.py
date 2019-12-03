@@ -84,8 +84,33 @@ class Environment:
         
         self.timestep += 1
 
+    def createInitialState(self):
+        numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE + 1)
+
+        left = [0] * numSlices
+        right = [0] * numSlices
+        up = [0] * numSlices
+        down = [0] * numSlices
+
+        lights = [1, 1, 1, 1]
+
+        return (tuple(left), tuple(right), tuple(up), tuple(down), tuple(lights), 0)
+
     def writeState(self, all_cars, lights):
-        pass
+        # state will be [[left disc], [up disc], [right disc], [bottom disc], lights, numStopped]
+        numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE + 1)
+        leftDiscr = np.linspace(self.INTERSECTION_LENGTH, 0, numSlices)
+        upDiscr = np.linspace(-self.INTERSECTION_LENGTH, 0, numSlices)
+        rightDiscr = np.linspace(-self.INTERSECTION_LENGTH, 0, numSlices)
+        downDiscr = np.linspace(self.INTERSECTION_LENGTH, 0, numSlices)
+
+        left = [0] * numSlices
+        right = [0] * numSlices
+        up = [0] * numSlices
+        down = [0] * numSlices
+
+        lights = [1, 1, 1, 1]
+
     # choose action in sarsa? epsilon-greedy
 
     def chooseAction(self, s):
@@ -102,11 +127,11 @@ class Environment:
             largestQ = float('-inf')
             #loop over actions instead 
             currActionList = []
-            for a in self.actions:
+            for a in self.ACTIONS:
                 currKey = (s, a)
                 currQ = float('-inf')
                 if currKey in self.QTable:
-                    currQ = QTable[key]
+                    currQ = self.QTable[currKey]
                 if currQ > largestQ: 
                     currActionList = [a]
                 elif currQ == largestQ: 
@@ -116,7 +141,7 @@ class Environment:
 
     def reward(self, state, action):
         # should take the state and then tell us 
-        pass
+        _, _, _, _, currLights, numStopped = state
 
     def render(self):
         pass
@@ -138,6 +163,6 @@ class Environment:
 
         self.timestep = 0
 
-        self.prevState = None
-        self.currState = None
+        self.prevState = self.createInitialState()
+        self.currState = self.createInitialState()
     

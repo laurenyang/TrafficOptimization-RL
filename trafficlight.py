@@ -19,7 +19,6 @@ class TrafficLight:
 			if valid:
 				self.actionSpace.append(cand)
 		# 1 is red
-		# [(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 1, 0), (0, 1, 0, 0), (0, 1, 0, 1), (1, 0, 0, 0), (1, 0, 1, 0)]
 
 		# state should be [[],[],[],[]]
 		# T should be dependent on the car generation at first
