@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 global vars 
 '''
 TOTAL_TIME = 50 # in seconds 
-CAR_PROB = 0.1 # prob of a car appearing at any given time step 
+CAR_PROB = 1 # prob of a car appearing at any given time step 
 
 # actions
 STOP = 0
@@ -67,8 +67,9 @@ def randomFlipBenchmarking():
 				# if len(left_cars) > 0:
 				# 	print('left', printCar(left_cars[0]))
 				print('left', len(left_cars))
+				print(left_cars)
 				print(lights.state)
-				for l in left_cars:
+				for _, l in enumerate(left_cars):
 					print(printCar(l))
 				
 
@@ -92,7 +93,7 @@ def randomFlipBenchmarking():
 				# all_cars = utils.pruneCars(all_cars)
 				#update existing cars
 				left_cars, right_cars, up_cars, down_cars, all_cars = utils.pruneCars(left_cars, right_cars, up_cars, down_cars)
-				for car in all_cars[::-1]:
+				for car in all_cars:
 					car.updatePosition(all_cars, lights)
 
 				#generate all cars 

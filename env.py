@@ -123,6 +123,8 @@ class Environment:
         self.right_car_gen = cargenerate.CarGenerator(self.LEFT_DIR, self.CAR_PROB)
         self.top_car_gen = cargenerate.CarGenerator(self.DOWN_DIR, self.CAR_PROB)
         self.bottom_car_gen = cargenerate.CarGenerator(self.UP_DIR, self.CAR_PROB)
+        self.INTERSECTION_LENGTH = self.left_car_gen.INTERSECTION_LENGTH
+        self.GRID_SIZE = self.left_car_gen.FOLLOW_DIST / 2
 
         self.timestep = 0
 

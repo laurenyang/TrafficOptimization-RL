@@ -56,7 +56,7 @@ class Car:
             light_dist = max(abs(self.pos[0]), abs(self.pos[1]))
             if light_dist < min_dist:
                 light_closest_bool = True
-                min_dist = min(min_dist, max(abs(self.pos[0]), abs(self.pos[1]))) # how far to the light
+                min_dist = light_dist # how far to the light
         # green light
         
 
