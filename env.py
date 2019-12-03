@@ -110,7 +110,24 @@ class Environment:
         up = [0] * numSlices
         down = [0] * numSlices
 
-        lights = [1, 1, 1, 1]
+        # left
+        for car in all_cars[0]:
+            left[abs(int(car.pos[0] / self.GRID_SIZE))] += 1
+        
+        # right
+        for car in all_cars[1]:
+            right[abs(int(car.pos[0] / self.GRID_SIZE))] += 1
+        
+        # up
+        for car in all_cars[2]:
+            up[abs(int(car.pos[1] / self.GRID_SIZE))] += 1
+        
+        # down
+        for car in all_cars[3]:
+            down[abs(int(car.pos[1] / self.GRID_SIZE))] += 1
+
+        return (tuple(left), tuple(right), tuple(up), tuple(down), tuple(lights), utils.numStopped(all_cars[0] + all_cars[1] + all_cars[2] + all_cars[3]))
+
 
     # choose action in sarsa? epsilon-greedy
 

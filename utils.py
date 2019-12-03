@@ -50,4 +50,4 @@ def pruneCars(left_cars, right_cars, top_cars, bottom_cars):
             new_bottom.append(c)
         
     
-    return new_left, new_right, new_top, new_bottom, new_left + new_right + new_top + new_bottom
+    return new_left, new_right, new_top, new_bottom, [new_left, new_right, new_top, new_bottom]
