@@ -32,6 +32,7 @@ class Environment:
     QTable = {} # (s, a) -> Q-value
     seenTuples = set()
 
+    LIGHTCHANGECOST = 1
     EPSILON = .05
     ACTIONS = []
 
@@ -58,7 +59,7 @@ class Environment:
         self.left_cars, self.right_cars, self.up_cars, self.down_cars, self.all_cars = utils.pruneCars(self.left_cars, self.right_cars, self.up_cars, self.down_cars)
         
         # update positions in reverse queue order
-        for car in self.all_cars[::-1]:
+        for car in self.all_cars:
             car.updatePosition(self.all_cars, self.lights)
 
         # generate all cars 
@@ -142,6 +143,8 @@ class Environment:
     def reward(self, state, action):
         # should take the state and then tell us 
         _, _, _, _, currLights, numStopped = state
+
+        return -(numStopped + int(action != currLights) * self.LIGHTCHANGECOST)
 
     def render(self):
         pass

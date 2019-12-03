@@ -7,6 +7,13 @@ def calculateReward(cars):
             cost -= 1
     return cost
 
+def numberStopped(cars):
+    num = 0
+    for c in cars:
+        if c.stopped:
+            num += 1
+    return num
+
 # no longer consider cars that are past 
 def pruneCars(left_cars, right_cars, top_cars, bottom_cars):
     new_left = []
