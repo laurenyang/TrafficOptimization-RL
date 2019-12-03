@@ -20,11 +20,11 @@ def sarsa(intersection):
                                                                   + alpha * (r + gamma * intersection.QTable.get((intersection.currState, action), 0)))
 
 def driver():
-    epochs = int(1e5)
+    epochs = int(1.26e7)
     intersection = env.Environment()
     start = time.time()
     for i in range(epochs):
-        if i % 10000 == 0:
+        if i % 100000 == 0:
             print(i)
             print(f'time passed: {time.time() - start} seconds')
             print(len(intersection.QTable))
