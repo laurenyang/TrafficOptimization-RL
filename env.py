@@ -99,9 +99,19 @@ class Environment:
             action = np.random.randint(0, self.ACTIONS)
         else: 
             #chose based on reward]
-            # for 
-            action = np.argmax(self.QTable[s, :]) 
-            
+            largestQ = float('-inf')
+            #loop over actions instead 
+            currActionList = []
+            for a in self.actions:
+                currKey = (s, a)
+                currQ = float('-inf')
+                if currKey in self.QTable:
+                    currQ = QTable[key]
+                if currQ > largestQ: 
+                    currActionList = [a]
+                elif currQ == largestQ: 
+                    currActionList.append(a)
+            action = random.choice(currActionList)            
         return action 
 
     def reward(self, state, action):
