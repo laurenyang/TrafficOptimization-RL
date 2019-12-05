@@ -51,10 +51,10 @@ class Environment:
         # Q-learning variables
         
 
-    def step(self):
+    def step(self, action):
         # based on car gen + curr cars, update everything
         # choose action - see how like Q(s, a, s') works
-            
+        
         # prune cars past the intersection
         self.left_cars, self.right_cars, self.up_cars, self.down_cars, self.all_cars = utils.pruneCars(self.left_cars, self.right_cars, self.up_cars, self.down_cars)
         
@@ -87,6 +87,8 @@ class Environment:
         self.timestep += 1
         self.prevState = self.currState
         self.currState = self.writeState(self.all_cars, self.lights.state)
+        if action is not None:
+            self.lights.changeLight(action)
 
     def createInitialState(self):
         numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE) // 4
@@ -186,6 +188,9 @@ class Environment:
         action = random.choice(currActionList)
         return action
 
+    def doAction(self, action):
+        self.lights = 
+
     def reward(self, state, action):
         # should take the state and then tell us 
         _, _, _, _, currLights, numStopped = state
@@ -194,6 +199,9 @@ class Environment:
 
     def render(self):
         pass
+
+    def loadQTable(self, qt):
+        self.QTable = qt
 
     def reset(self):
         # lists of cars
