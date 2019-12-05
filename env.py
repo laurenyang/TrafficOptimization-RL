@@ -88,7 +88,7 @@ class Environment:
         self.prevState = self.currState
         self.currState = self.writeState(self.all_cars, self.lights.state)
         if action is not None:
-            self.lights.changeLight(action)
+            self.lights.changeLight(action, self.timestep)
 
     def createInitialState(self):
         numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE) // 4
@@ -187,9 +187,6 @@ class Environment:
                 currActionList.append(a)
         action = random.choice(currActionList)
         return action
-
-    def doAction(self, action):
-        self.lights = 
 
     def reward(self, state, action):
         # should take the state and then tell us 
