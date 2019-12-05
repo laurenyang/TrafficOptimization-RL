@@ -8,8 +8,8 @@ import pickle
 
 def sarsa(intersection):
     timesteps = 1000
-    alpha = 0.1
-    gamma = 0.85
+    alpha = 0.05
+    gamma = 0.9
     action = intersection.chooseAction(intersection.currState) # at
     for _ in range(timesteps):
         
@@ -26,7 +26,7 @@ def sarsa(intersection):
 def driver():
     epochs = int(2e5)
     intersection = env.Environment()
-    fname = '/dfs/scratch0/tigs/traffic/qtable_tiger_small_alpha1_gamma85.pkl'
+    fname = '/dfs/scratch0/tigs/traffic/qtable_tiger_small_alpha05_gamma9.pkl'
     start = time.time()
     for i in range(epochs):
         if i % 1000 == 0:

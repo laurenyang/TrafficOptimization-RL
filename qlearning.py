@@ -8,8 +8,8 @@ import pickle
 
 def qlearning(intersection):
     timesteps = 1000
-    alpha = 0.05
-    gamma = 0.9
+    alpha = 0.1
+    gamma = 0.8
     
     for _ in range(timesteps):
         action = intersection.chooseAction(intersection.currState)
@@ -19,23 +19,24 @@ def qlearning(intersection):
                                                                   + alpha * (r + gamma * intersection.QTable.get((intersection.currState, intersection.bestAction(intersection.currState)), 0)))
 
 def driver():
-    epochs = int(1e5)
+    epochs = int(2e5)
     intersection = env.Environment()
     start = time.time()
+    fname= '/dfs/scratch0/tigs/traffic/qtable_qlearning_alpha1_gamma8.pkl'
     for i in range(epochs):
-        if i % 50 == 0:
+        if i % 100 == 0:
             print(i)
             print(f'time passed: {time.time() - start} seconds')
             print(f'estimated time to completion: {(time.time() - start) * (epochs / (i + 1) - 1)} seconds')
             print(f'unique states encountered: {len(intersection.QTable)}')
-            f = open('qtable_qlearning.pkl', 'wb')
+            f = open(fname, 'wb')
             pickle.dump(intersection.QTable, f)
             f.close()
 
-        qlearnin(intersection)
+        qlearning(intersection)
         intersection.reset()
 
-    f = open('qtable_qlearning.pkl', 'wb')
+    f = open(fname, 'wb')
     pickle.dump(intersection.QTable, f)
     f.close()
 
