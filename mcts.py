@@ -5,6 +5,8 @@ import multiprocessing
 import pickle
 import time
 
+# hyperparameters: gamma, c, d, epochs
+
 def selectAction(intersection, d, epochs):
     T = set()
     N = {}
@@ -19,12 +21,13 @@ def selectAction(intersection, d, epochs):
     return intersection.bestAction(intersection.currState)
 
 def MCTSBestAction(s, intersection, N):
+    c = 0.05
     largestQ = float('-inf')
     stateVisits = sum(N[s].values())
     currActionList = []
     for a in intersection.ACTIONS:
         currKey = (s, a)
-        currQ =  0.05 * np.sqrt(np.log(stateVisits) / N[s][a])
+        currQ =  c * np.sqrt(np.log(stateVisits) / N[s][a])
         if currKey in intersection.QTable:
             currQ += intersection.QTable[currKey]
         if currQ > largestQ: 
