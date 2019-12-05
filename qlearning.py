@@ -29,6 +29,10 @@ def driver():
             print(f'time passed: {time.time() - start} seconds')
             print(f'estimated time to completion: {(time.time() - start) * (epochs / (i + 1) - 1)} seconds')
             print(f'unique states encountered: {len(intersection.QTable)}')
+            f = open('qtable_qlearning.pkl', 'wb')
+            pickle.dump(intersection.QTable, f)
+            f.close()
+
         qlearnin(intersection)
         intersection.reset()
 
