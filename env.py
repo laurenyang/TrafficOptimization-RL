@@ -55,6 +55,9 @@ class Environment:
         # based on car gen + curr cars, update everything
         # choose action - see how like Q(s, a, s') works
         
+        if action is not None:
+            self.lights.changeLight(action, self.timestep)
+
         # prune cars past the intersection
         self.left_cars, self.right_cars, self.up_cars, self.down_cars, self.all_cars = utils.pruneCars(self.left_cars, self.right_cars, self.up_cars, self.down_cars)
         
@@ -87,8 +90,7 @@ class Environment:
         self.timestep += 1
         self.prevState = self.currState
         self.currState = self.writeState(self.all_cars, self.lights.state)
-        if action is not None:
-            self.lights.changeLight(action, self.timestep)
+        
 
     def createInitialState(self):
         numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE) // 4

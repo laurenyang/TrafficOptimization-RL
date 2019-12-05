@@ -10,14 +10,18 @@ def sarsa(intersection):
     timesteps = 1000
     alpha = 0.1
     gamma = 0.85
-    action = intersection.chooseAction(intersection.currState)
+    action = intersection.chooseAction(intersection.currState) # at
     for _ in range(timesteps):
+        
+        intersection.step(action)
         r = intersection.reward(intersection.currState, action)
+
         prevAction = action
-        action = intersection.chooseAction(intersection.currState)
-        intersection.step(prevAction)
+        nextAction = intersection.chooseAction(intersection.currState) # next steps action, at+1
+        
         intersection.QTable[(intersection.prevState, prevAction)] = (intersection.QTable.get((intersection.prevState, prevAction), 0) * (1 - alpha)
-                                                                  + alpha * (r + gamma * intersection.QTable.get((intersection.currState, action), 0)))
+                                                                  + alpha * (r + gamma * intersection.QTable.get((intersection.currState, nextAction), 0)))
+        action = nextAction
 
 def driver():
     epochs = int(2e5)

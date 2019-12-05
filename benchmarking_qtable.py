@@ -9,7 +9,7 @@ def simulate(intersection):
     timesteps = 1000
     action = intersection.chooseAction(intersection.currState)
     r = 0
-    for i in range(timesteps):
+    for _ in range(timesteps):
         r += intersection.reward(intersection.currState, action)
         action = intersection.bestAction(intersection.currState)
         intersection.step()

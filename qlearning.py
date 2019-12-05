@@ -10,14 +10,13 @@ def qlearning(intersection):
     timesteps = 1000
     alpha = 0.05
     gamma = 0.9
-    action = intersection.chooseAction(intersection.currState)
-    for i in range(timesteps):
-        r = intersection.reward(intersection.currState, action)
-        prevAction = action
+    
+    for _ in range(timesteps):
         action = intersection.chooseAction(intersection.currState)
-        intersection.step()
-        intersection.QTable[(intersection.prevState, prevAction)] = (intersection.QTable.get((intersection.prevState, prevAction), 0) * (1 - alpha)
-                                                                  + alpha * (r + gamma * intersection.QTable.get((intersection.currState, intersection.bestAction(currState)), 0)))
+        intersection.step(action)
+        r = intersection.reward(intersection.currState, action)
+        intersection.QTable[(intersection.prevState, action)] = (intersection.QTable.get((intersection.prevState, action), 0) * (1 - alpha)
+                                                                  + alpha * (r + gamma * intersection.QTable.get((intersection.currState, intersection.bestAction(intersection.currState)), 0)))
 
 def driver():
     epochs = int(1e5)
