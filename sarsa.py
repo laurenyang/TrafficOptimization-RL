@@ -8,8 +8,8 @@ import pickle
 
 def sarsa(intersection):
     timesteps = 1000
-    alpha = 0.05
-    gamma = 0.9
+    alpha = 0.1
+    gamma = 0.75
     action = intersection.chooseAction(intersection.currState)
     for i in range(timesteps):
         r = intersection.reward(intersection.currState, action)
@@ -20,20 +20,22 @@ def sarsa(intersection):
                                                                   + alpha * (r + gamma * intersection.QTable.get((intersection.currState, action), 0)))
 
 def driver():
-    epochs = int(1.26e7)
+    epochs = int(2e5)
     intersection = env.Environment()
     start = time.time()
     for i in range(epochs):
-        if i % 100000 == 0:
+        if i % 1000 == 0:
             print(i)
             print(f'time passed: {time.time() - start} seconds')
             print(len(intersection.QTable))
+            if i % 1000 == 0:
+                f = open('/dfs/scratch0/tigs/traffic/qtable_tiger_small_many_iter.pkl', 'wb')
+                pickle.dump(intersection.QTable, f)
+                f.close()
+
         sarsa(intersection)
         intersection.reset()
 
-    f = open('qtable.pkl', 'wb')
-    pickle.dump(intersection.QTable, f)
-    f.close()
 
 def main():
     driver()

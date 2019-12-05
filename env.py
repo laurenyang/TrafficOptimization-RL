@@ -36,7 +36,7 @@ class Environment:
     EPSILON = .05
     ACTIONS = []
 
-    
+    MAX_CARS = 5
 
     def __init__(self):
         self.NUM_LIGHTS = 4
@@ -65,11 +65,11 @@ class Environment:
 
         # generate all cars 
         # left gen generates rightwards going cars
-        generated_left_car = self.right_car_gen.gen_car(self.timestep)
-        generated_right_car = self.left_car_gen.gen_car(self.timestep)
-        
-        generated_up_car = self.bottom_car_gen.gen_car(self.timestep)
-        generated_down_car = self.top_car_gen.gen_car(self.timestep)
+        generated_left_car = self.right_car_gen.gen_car(self.timestep) if len(self.left_cars) < self.MAX_CARS else None
+        generated_right_car = self.left_car_gen.gen_car(self.timestep) if len(self.right_cars) < self.MAX_CARS else None
+ 
+        generated_up_car = self.bottom_car_gen.gen_car(self.timestep) if len(self.up_cars) < self.MAX_CARS else None
+        generated_down_car = self.top_car_gen.gen_car(self.timestep) if len(self.down_cars) < self.MAX_CARS else None
 
         if generated_left_car: 
             self.left_cars.append(generated_left_car)
@@ -89,7 +89,7 @@ class Environment:
         self.currState = self.writeState(self.all_cars, self.lights.state)
 
     def createInitialState(self):
-        numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE + 1)
+        numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE) // 4
 
         left = [0] * numSlices
         right = [0] * numSlices
@@ -102,11 +102,11 @@ class Environment:
 
     def writeState(self, all_cars, lights):
         # state will be [[left disc], [up disc], [right disc], [bottom disc], lights, numStopped]
-        numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE + 1)
-        leftDiscr = np.linspace(self.INTERSECTION_LENGTH, 0, numSlices)
-        upDiscr = np.linspace(-self.INTERSECTION_LENGTH, 0, numSlices)
-        rightDiscr = np.linspace(-self.INTERSECTION_LENGTH, 0, numSlices)
-        downDiscr = np.linspace(self.INTERSECTION_LENGTH, 0, numSlices)
+        numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE) // 4
+        # leftDiscr = np.linspace(self.INTERSECTION_LENGTH, 0, numSlices)
+        # upDiscr = np.linspace(-self.INTERSECTION_LENGTH, 0, numSlices)
+        # rightDiscr = np.linspace(-self.INTERSECTION_LENGTH, 0, numSlices)
+        # downDiscr = np.linspace(self.INTERSECTION_LENGTH, 0, numSlices)
 
         left = [0] * numSlices
         right = [0] * numSlices
@@ -115,19 +115,28 @@ class Environment:
 
         # left
         for car in all_cars[0]:
-            left[abs(int(car.pos[0] / self.GRID_SIZE))] += 1
+            val = abs(int(car.pos[0] / self.GRID_SIZE))
+            if val < numSlices:
+                left[val] = 1
         
         # right
         for car in all_cars[1]:
-            right[abs(int(car.pos[0] / self.GRID_SIZE))] += 1
+            val = abs(int(car.pos[0] / self.GRID_SIZE))
+            if val < numSlices:
+                right[val] = 1
         
         # up
         for car in all_cars[2]:
-            up[abs(int(car.pos[1] / self.GRID_SIZE))] += 1
+            val = abs(int(car.pos[1] / self.GRID_SIZE))
+            if val < numSlices:
+                up[val] = 1
         
         # down
         for car in all_cars[3]:
-            down[abs(int(car.pos[1] / self.GRID_SIZE))] += 1
+            val = abs(int(car.pos[1] / self.GRID_SIZE))
+            if val < numSlices:
+                down[val] = 1
+
 
         return (tuple(left), tuple(right), tuple(up), tuple(down), tuple(lights), utils.numberStopped(all_cars[0] + all_cars[1] + all_cars[2] + all_cars[3]))
 
