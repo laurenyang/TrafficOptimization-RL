@@ -15,7 +15,7 @@ def sarsa(intersection):
         r = intersection.reward(intersection.currState, action)
         prevAction = action
         action = intersection.chooseAction(intersection.currState)
-        intersection.step(action)
+        intersection.step(prevAction)
         intersection.QTable[(intersection.prevState, prevAction)] = (intersection.QTable.get((intersection.prevState, prevAction), 0) * (1 - alpha)
                                                                   + alpha * (r + gamma * intersection.QTable.get((intersection.currState, action), 0)))
 
