@@ -170,6 +170,22 @@ class Environment:
         self.lights.changeLight(action, self.timestep)            
         return action 
 
+    def bestAction(self, s):
+        largestQ = float('-inf')
+        #loop over actions instead 
+        currActionList = []
+        for a in self.ACTIONS:
+            currKey = (s, a)
+            currQ = float('-inf')
+            if currKey in self.QTable:
+                currQ = self.QTable[currKey]
+            if currQ > largestQ: 
+                currActionList = [a]
+            elif currQ == largestQ: 
+                currActionList.append(a)
+        action = random.choice(currActionList)
+        return action
+
     def reward(self, state, action):
         # should take the state and then tell us 
         _, _, _, _, currLights, numStopped = state
