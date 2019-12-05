@@ -51,10 +51,13 @@ class Environment:
         # Q-learning variables
         
 
-    def step(self):
+    def step(self, action):
         # based on car gen + curr cars, update everything
         # choose action - see how like Q(s, a, s') works
-            
+        
+        if action is not None:
+            self.lights.changeLight(action, self.timestep)
+
         # prune cars past the intersection
         self.left_cars, self.right_cars, self.up_cars, self.down_cars, self.all_cars = utils.pruneCars(self.left_cars, self.right_cars, self.up_cars, self.down_cars)
         
@@ -87,6 +90,7 @@ class Environment:
         self.timestep += 1
         self.prevState = self.currState
         self.currState = self.writeState(self.all_cars, self.lights.state)
+        
 
     def createInitialState(self):
         numSlices = int(self.INTERSECTION_LENGTH / self.GRID_SIZE) // 4
@@ -170,6 +174,22 @@ class Environment:
         self.lights.changeLight(action, self.timestep)            
         return action 
 
+    def bestAction(self, s):
+        largestQ = float('-inf')
+        #loop over actions instead 
+        currActionList = []
+        for a in self.ACTIONS:
+            currKey = (s, a)
+            currQ = float('-inf')
+            if currKey in self.QTable:
+                currQ = self.QTable[currKey]
+            if currQ > largestQ: 
+                currActionList = [a]
+            elif currQ == largestQ: 
+                currActionList.append(a)
+        action = random.choice(currActionList)
+        return action
+
     def reward(self, state, action):
         # should take the state and then tell us 
         _, _, _, _, currLights, numStopped = state
@@ -178,6 +198,9 @@ class Environment:
 
     def render(self):
         pass
+
+    def loadQTable(self, qt):
+        self.QTable = qt
 
     def reset(self):
         # lists of cars
