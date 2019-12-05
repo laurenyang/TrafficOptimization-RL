@@ -1,4 +1,7 @@
 import pygame
+import car
+import cargenerate
+import trafficlight
 
 class Visualize:
     # Constants
@@ -36,7 +39,7 @@ class Visualize:
         self.screen = self.pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         
         self.background_image = self.pygame.image.load("images/road.png").convert_alpha()
-        self.background_image = self.pygame.transform.scale(background_image, (900, 900))
+        self.background_image = self.pygame.transform.scale(self.background_image, (900, 900))
 
         self.car = self.pygame.image.load("images/car.png").convert_alpha()
         self.left_car = [self.pygame.transform.scale(self.car, (self.CAR_LENGTH, self.CAR_WIDTH)), [self.LEFT_START, self.LEFT_AXIS]]
@@ -58,11 +61,6 @@ class Visualize:
         self.screen.fill(self.BACKGROUND_COLOR)
         self.screen.blit(self.background_image, [0, 0])
 
-        self.screen.blit(self.right_car[0], self.right_car[1])
-        self.screen.blit(self.left_car[0], self.left_car[1])
-        self.screen.blit(self.down_car[0], self.down_car[1])
-        self.screen.blit(self.up_car[0], self.up_car[1])
-
         self.screen.blit(self.right_green, self.RIGHT_LIGHT_POS)
         self.screen.blit(self.left_green, self.LEFT_LIGHT_POS)
         self.screen.blit(self.up_red, self.UP_LIGHT_POS)
@@ -82,36 +80,71 @@ class Visualize:
         """
         self.pygame.time.delay(time)
 
-    def update(self, right_cars, left_cars, up_cars, down_cars):
+    def update(self, left_cars, right_cars, up_cars, down_cars):
         """
         Updates cars in window
         """
         self.screen.fill([0,150,50])
-        self.screen.blit(background_image, [0, 0])
+        self.screen.blit(self.background_image, [0, 0])
 
         # Add cars moving to the right to the screen
         for car in right_cars:
-            self.right_car[1][0] = int(car.pos[0] / 0.25 * SCREEN_WIDTH / 2) + SCREEN_WIDTH / 2
-            self.screen.blit(right_car[0], right_car[1])
+            self.right_car[1][0] = int(car.pos[0] / 0.25 * self.SCREEN_WIDTH / 2) + self.SCREEN_WIDTH / 2
+            self.screen.blit(self.right_car[0], self.right_car[1])
 
         # Add cars moving to the left to the screen
         for car in left_cars:
-            self.left_car[1][0] = int(car.pos[0] / 0.25 * SCREEN_WIDTH / 2) + SCREEN_WIDTH / 2
-            self.screen.blit(left_car[0], left_car[1])
+            self.left_car[1][0] = int(car.pos[0] / 0.25 * self.SCREEN_WIDTH / 2) + self.SCREEN_WIDTH / 2
+            self.screen.blit(self.left_car[0], self.left_car[1])
 
         # Add cars moving downwards to the screen
         for car in down_cars:
-            self.down_car[1][1] = int(car.pos[1] / 0.25 * SCREEN_HEIGHT / 2) + SCREEN_HEIGHT / 2
-            self.screen.blit(down_car[0], down_car[1])
+            self.down_car[1][1] = int(car.pos[1] / 0.25 * self.SCREEN_HEIGHT / 2) + self.SCREEN_HEIGHT / 2
+            self.screen.blit(self.down_car[0], self.down_car[1])
 
         # Add cars moving upwards to the screen
         for car in up_cars:
-            self.up_car[1][1] = int(car.pos[1] / 0.25 * SCREEN_HEIGHT / 2) + SCREEN_HEIGHT / 2
-            self.screen.blit(up_car[0], up_car[1])
+            self.up_car[1][1] = int(car.pos[1] / 0.25 * self.SCREEN_HEIGHT / 2) + self.SCREEN_HEIGHT / 2
+            self.screen.blit(self.up_car[0], self.up_car[1])
 
-        self.screen.blit(right_green, right_light_pos)
-        self.screen.blit(left_green, left_light_pos)
-        self.screen.blit(down_red, down_light_pos)
-        self.screen.blit(up_red, up_light_pos)
+        self.screen.blit(self.right_green, self.RIGHT_LIGHT_POS)
+        self.screen.blit(self.left_green, self.LEFT_LIGHT_POS)
+        self.screen.blit(self.down_red, self.DOWN_LIGHT_POS)
+        self.screen.blit(self.up_red, self.UP_LIGHT_POS)
 
         self.pygame.display.update()
+
+def main():
+    LEFT_DIR = 0
+    UP_DIR = 1
+    RIGHT_DIR = 2
+    DOWN_DIR = 3
+    p = 0.1
+    l_car_gen = cargenerate.CarGenerator(LEFT_DIR, p)
+    r_car_gen = cargenerate.CarGenerator(RIGHT_DIR, p)
+    u_car_gen = cargenerate.CarGenerator(UP_DIR, p)
+    d_car_gen = cargenerate.CarGenerator(DOWN_DIR, p)
+    lights = trafficlight.TrafficLight([0,0,0,0])
+
+    vis = Visualize()
+    l = r = u = d = []
+    for i in range(10000):
+        l_car = l_car_gen.gen_car(i)
+        if l_car:
+            l.append(l_car)
+        r_car = r_car_gen.gen_car(i)
+        if r_car:
+            r.append(r_car)
+        u_car = u_car_gen.gen_car(i)
+        if u_car:
+            u.append(u_car)
+        d_car = d_car_gen.gen_car(i)
+        if d_car:
+            d.append(d_car)
+        vis.update(l,r,u,d)
+        for c in l + r + u + d:
+            c.updatePosition(l + r + u + d, lights)
+    vis.quit()
+
+if __name__ == "__main__":
+    main()
