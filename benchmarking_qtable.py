@@ -4,38 +4,53 @@ import env
 import time
 import multiprocessing
 import pickle
+import os
 
 def simulate(intersection):
     timesteps = 1000
     action = intersection.chooseAction(intersection.currState)
     r = 0
-    for _ in range(timesteps):
+    for i in range(timesteps):
         r += intersection.reward(intersection.currState, action)
         action = intersection.bestAction(intersection.currState)
-        intersection.step()
+        print('bruh', action,  intersection.currState, intersection.reward(intersection.currState, action))
+        if i > 100:
+            1/0
+        intersection.step(action)
     return r
 
 # driver for qtable
 def qdriver():
-    epochs = int(1e3)
+    epochs = int(1e2)
     intersection = env.Environment()
-    suffixes = ['1', '2', '3', '4', '5', 'many_iter']
+    import os
+    fs = []
+    for filename in os.listdir('qpkls/traffic'):
+        if filename.endswith(".pkl"): 
+            fs.append(filename)
+    
     res = {}
-    for s in suffixes:
-        fname = f'qpkls/qtable_tiger_small_{s}.pkl'
-        qt = pickle.load(open(fname, 'rb'))
+    fs = ['qtable_test.pkl']
+    for fn in fs:
+        fname = f'qpkls/traffic/{fn}'
+        fname = fn
+        print(fname)
+        try:
+            qt = pickle.load(open(fname, 'rb'))
+        except:
+            continue
         intersection.loadQTable(qt)
         start = time.time()
         rewards = []
         for i in range(epochs):
             if i % 100 == 0:
-                print('iteration', i, suffixes)
+                print('iteration', i, fn)
                 print(f'time passed: {time.time() - start} seconds')
                 print(len(intersection.QTable))
 
             rewards.append(simulate(intersection))
-        res[s] = sum(rewards) / len(rewards)
-    print(res)
+        res[fn] = sum(rewards) / len(rewards)
+        print(res)
     out = open('sara_results.pkl', 'wb')
     pickle.dump(res, out)
     out.close()

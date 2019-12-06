@@ -25,7 +25,7 @@ RIGHT_DIR = 2
 DOWN_DIR = 3
 
 def printCar(car):
-	return f"pos: {car.pos}, dir: {car.dir}, v: {car.speed}, stopped: {car.stopped}"
+	return f"pos: {car.pos}, dir: {car.dir}, v: {car.speed}, stopped: {car.stopped}, action: {car.action}"
 
 def randomFlipBenchmarking():
 	'''
@@ -67,7 +67,6 @@ def randomFlipBenchmarking():
 				# if len(left_cars) > 0:
 				# 	print('left', printCar(left_cars[0]))
 				print('left', len(left_cars))
-				print(left_cars)
 				print(lights.state)
 				for _, l in enumerate(left_cars):
 					print(printCar(l))
@@ -93,8 +92,9 @@ def randomFlipBenchmarking():
 				# all_cars = utils.pruneCars(all_cars)
 				#update existing cars
 				left_cars, right_cars, up_cars, down_cars, all_cars = utils.pruneCars(left_cars, right_cars, up_cars, down_cars)
-				for car in all_cars:
-					car.updatePosition(all_cars, lights)
+				all_cars_list = sum(all_cars, [])
+				for car in all_cars_list:
+					car.updatePosition(all_cars_list, lights)
 
 				#generate all cars 
 				# left gen generates rightwards going cars
@@ -116,7 +116,7 @@ def randomFlipBenchmarking():
 				if generated_down_car: 
 					down_cars.append(generated_down_car)
 					all_cars.append(generated_down_car)
-				cost += utils.calculateReward(all_cars)
+				cost += utils.calculateReward(all_cars_list)
 			costs.append(cost)
 		print(costs)
 		# plt.xlabel('Wait time')

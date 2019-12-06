@@ -24,9 +24,10 @@ def sarsa(intersection):
         action = nextAction
 
 def driver():
-    epochs = int(2e5)
+    epochs = int(1e4)
     intersection = env.Environment()
-    fname = '/dfs/scratch0/tigs/traffic/qtable_tiger_small_alpha05_gamma9.pkl'
+    # fname = '/dfs/scratch0/tigs/traffic/qtable_tiger_small_alpha05_gamma9.pkl'
+    fname = 'qtable_test.pkl'
     start = time.time()
     for i in range(epochs):
         if i % 1000 == 0:

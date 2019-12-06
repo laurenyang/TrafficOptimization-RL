@@ -47,6 +47,7 @@ class Environment:
                     valid = False
             if valid:
                 self.ACTIONS.append(cand)
+        self.ACTIONS.remove((1, 1, 1, 1))
         self.reset()
         # Q-learning variables
         
@@ -179,6 +180,9 @@ class Environment:
         #loop over actions instead 
         currActionList = []
         for a in self.ACTIONS:
+            
+            if a == (1, 1, 1, 1):
+                continue
             currKey = (s, a)
             currQ = float('-inf')
             if currKey in self.QTable:
@@ -194,7 +198,7 @@ class Environment:
         # should take the state and then tell us 
         _, _, _, _, currLights, numStopped = state
 
-        return -(numStopped + int(action != currLights) * self.LIGHTCHANGECOST)
+        return -(numStopped + int(tuple(action) != tuple(currLights)) * self.LIGHTCHANGECOST)
 
     def render(self):
         pass
