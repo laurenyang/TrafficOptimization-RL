@@ -13,9 +13,6 @@ def simulate(intersection):
     for i in range(timesteps):
         r += intersection.reward(intersection.currState, action)
         action = intersection.bestAction(intersection.currState)
-        print('bruh', action,  intersection.currState, intersection.reward(intersection.currState, action))
-        if i > 100:
-            1/0
         intersection.step(action)
     return r
 
@@ -23,7 +20,7 @@ def simulate(intersection):
 def qdriver():
     epochs = int(1e2)
     intersection = env.Environment()
-    import os
+    
     fs = []
     for filename in os.listdir('qpkls/traffic'):
         if filename.endswith(".pkl"): 
