@@ -22,15 +22,15 @@ def qdriver():
     intersection = env.Environment()
     
     fs = []
-    for filename in os.listdir('qpkls/traffic'):
+    for filename in os.listdir('qpkls/traffic2'):
+        print(filename)
         if filename.endswith(".pkl"): 
             fs.append(filename)
     
     res = {}
-    fs = ['qtable_test.pkl']
+    # fs = ['qtable_test.pkl']
     for fn in fs:
-        fname = f'qpkls/traffic/{fn}'
-        fname = fn
+        fname = f'qpkls/traffic2/{fn}'
         print(fname)
         try:
             qt = pickle.load(open(fname, 'rb'))

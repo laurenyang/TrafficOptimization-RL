@@ -169,6 +169,7 @@ class Environment:
                     currQ = self.QTable[currKey]
                 if currQ > largestQ: 
                     currActionList = [a]
+                    largestQ = currQ
                 elif currQ == largestQ: 
                     currActionList.append(a)
             action = random.choice(currActionList)
@@ -189,9 +190,42 @@ class Environment:
                 currQ = self.QTable[currKey]
             if currQ > largestQ: 
                 currActionList = [a]
+                largestQ = currQ
             elif currQ == largestQ: 
                 currActionList.append(a)
         action = random.choice(currActionList)
+        return action
+
+    def greedyActionNoTurn(self):
+        lstopped = utils.numberStopped(self.left_cars)
+        rstopped = utils.numberStopped(self.right_cars)
+        ustopped = utils.numberStopped(self.up_cars)
+        dstopped = utils.numberStopped(self.down_cars)
+        mx = max(lstopped, rstopped, ustopped, dstopped)
+        if mx == lstopped:
+            action = (0, 1, 0, 1)
+        elif mx == rstopped:
+            action = (0, 1, 0, 1)
+        elif mx == ustopped:
+            action = (1, 0, 1, 0)
+        elif mx == dstopped:
+            action = (1, 0, 1, 0)
+        return action
+    
+    def greedyActionTurn(self):
+        lstopped = utils.numberStopped(self.left_cars)
+        rstopped = utils.numberStopped(self.right_cars)
+        ustopped = utils.numberStopped(self.up_cars)
+        dstopped = utils.numberStopped(self.down_cars)
+        mx = max(lstopped, rstopped, ustopped, dstopped)
+        if mx == lstopped:
+            action = (0, 1, 1, 1)
+        elif mx == rstopped:
+            action = (1, 1, 0, 1)
+        elif mx == ustopped:
+            action = (1, 0, 1, 1)
+        elif mx == dstopped:
+            action = (1, 1, 1, 0)
         return action
 
     def reward(self, state, action):
